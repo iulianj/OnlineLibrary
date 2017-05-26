@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@ViewBag.Title - Online L!BRARY</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+  @Styles.Render("~/Content/css")
+  @Scripts.Render("~/bundles/modernizr")
+
+
+</head>
+<body>
+  <div class="page-wrap">
+    <div class="overlay" style="position: fixed; width: 100%; height: 100%; top: 0px; left: 0px; background-color: rgba(0,0,0,0.7); overflow-y: auto; z-index: -9998; opacity: 0;">
+      <div class="load-container load6" style="top: 50%;margin-top: -100px !important;left: 50%;margin-left: -100px !important;position: absolute;width:200px;height:200px;">
+        <div class="loader"></div>
+      </div>
+    </div>
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../Home/Index"><img src="../../images/library-logo.png" alt="logo"></a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav">
+            <li>@Html.ActionLink("HOME", "Index", "Home", new { area=""},null)</li>
+            <li>@Html.ActionLink("ABOUT", "About", "Home", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("CONTACT", "Contact", "Home", new { area = "" }, null)</li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>@Html.Partial("_LoginPartial")</li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="jumbotron">
+      <div class="container text-right" style="text-shadow: 0 0 25px black">
+        <h1>Online Library</h1>
+        <p>RENT A BOOK - don't wait for the movie !</p>
+      </div>
+    </div>
+    <div id="top_container" class="container-fluid">
+      <div class="row content">
+        @RenderBody()
+      </div>
+    </div>
+  </div>
+  <footer class="container-fluid">
+    © Copyright 2017
+  </footer>
+  @Scripts.Render("~/bundles/jquery")
+  @Scripts.Render("~/bundles/jqueryval")
+  @Scripts.Render("~/bundles/bootstrap")
+  @RenderSection("scripts", required: false)
+</body>
+</html>
+
+
+
+

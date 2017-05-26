@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Library.Models.BooksSearchModel>
+
+<div class="col-sm-9 text-left">
+  <h1 class="title">Search Result</h1>
+  <form class="ordering" method="get">
+    <select name="orderby" class="orderby">
+      <option value="" selected disabled>Sort by</option>
+      <option value="category">Sort by category</option>
+      <option value="author">Sort by Author</option>
+      <option value="publishing">Sort by Publishing</option>
+      <option value="year">Sort by Year: Low to High</option>
+      <option value="year-desc">Sort by Year: High to Low</option>
+    </select>
+  </form>
+  <div class="books_result">
+    <span>Search result:</span>
+    @if (Model.Count() == 1)
+    {
+      @Model.Count()<span> book</span><br />
+    }
+    else
+    {
+      @Model.Count()<span> books</span><br />
+    }
+    @foreach (var item in Model)
+      {
+      <div class="books">
+        <a href="#">
+          <div class='book_badge @(item.Availability==0 ? " unavailable" : " available")'></div>
+          <div class="books_image">
+            <img src="../../images/suge-o-andrei.jpg" alt="">
+          </div>
+          <div class="book_author">@Html.DisplayFor(modelItem => item.Author)</div>
+          <div class="book_title">@Html.DisplayFor(modelItem => item.Title)</div>
+          <div class="book_rent_button">LOAN</div>
+        </a>
+      </div>
+    }
+
+  </div>
+</div>
+
+

@@ -1,0 +1,33 @@
+﻿@using OnlineLibrary.myClasses;
+@if (Session["user_name"] != null)
+{
+  using (Html.BeginForm("LogOff", "MyAccount", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+  {
+    @Html.AntiForgeryToken()
+
+    <ul class="nav navbar-nav navbar-right">
+      <li style="text-transform: capitalize;padding: 15px;color: white;">Hello &nbsp;@Session["user_name"]!</li>
+      <li>
+        @if (Session["RoleName"].ToString() == "Admin")
+        {
+          @Html.ActionLink("DashBoard", "Index", "DashBoard", new { area = "Admin" },null)
+        }
+        else
+        {
+          @Html.ActionLink("MyAccount", "YAccount", "Loans")
+        }
+      </li>
+      <li>
+        @Html.ActionLink("Log off", "Logoff", "MyAccount", new { area = "" }, null)
+      </li>
+    </ul>
+  }
+}
+else
+{
+  <ul class="nav navbar-nav navbar-right">
+    <li>@Html.ActionLink("Register", "Register", "MyAccount", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+    <li>@Html.ActionLink("Log in", "Login", "MyAccount", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+  </ul>
+}
+

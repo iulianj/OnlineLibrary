@@ -1,0 +1,38 @@
+﻿@model IEnumerable<OnlineLibrary.Models.BookViewModel>
+
+<div class="row" style="padding-bottom: 30px;">
+  <div style="padding-top: 30px;">
+    <div class="col-sm-1 text-left"></div>
+    <div class="col-sm-4 text-left">
+      <img src="@Model.First().imageURL" alt="" style="max-height:380px">
+    </div>
+
+    <div class="col-sm-6 text-left" style="border:1px #e7e7e7;">
+
+      <div style="font-size: 16px;text-align: center; font-weight:700;text-transform:uppercase">
+        @Model.First().Title
+      </div>
+      <div style="font-size: 14px;text-align: center;font-weight:700">
+        @Model.First().Author
+      </div>
+      @if (Model.First().AvailabilityDate != "")
+      {
+        DateTime dt = DateTime.ParseExact(Model.First().AvailabilityDate, "dd-MM-yyyy", null).AddDays(10);
+        string availDate = dt.ToString("dd-MM-yyyy");
+        <div class="book_avail" style="margin: 15px auto 24px auto;">Available on<br />@availDate</div>
+      }
+      else
+      {
+        <div loanedId="@Model.First().ID" class="book_rent_button" style="margin:15px auto; cursor:pointer; color: white;background: #94d347;">LOAN</div>
+      }
+      <div style="font-size: 12px;">
+        Editura: @Model.First().Publishing
+      </div>
+      <div style="font-size: 12px;">
+        ISBN: @Model.First().ISBN
+      </div>
+    </div>
+    <span style="font-weight:700;padding-left: 15px;">Description:</span><br />
+    <div id="description" class="col-sm-6 text-left" style="max-height:350px;overflow:auto; text-align:justify">@Model.First().Description</div>
+  </div>
+</div>

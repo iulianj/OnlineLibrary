@@ -1,0 +1,77 @@
+﻿@model IEnumerable<OnlineLibrary.Models.UserLoanedBooks>
+<div class="col-sm-9 text-left">
+
+  <h1 class="title">Your Loaned Books</h1>
+  <div class="col-sm-12 text-left">
+  You have <b>@Model.Count()</b> loaned book(s)
+  <div id="overdue" style="color:red"></div>
+  <br /><br />
+  <table class="table">
+  <tr>
+  <th>
+  @Html.DisplayNameFor(model => model.Title)
+  </th>
+  <th>
+  @Html.DisplayNameFor(model => model.Author)
+  </th>
+  <th>
+  Loan Date
+  </th>
+  <th>
+  Return Date
+  </th>
+  </tr>
+
+  @foreach (var item in Model)
+  {
+    <tr>
+    <td>
+    @Html.DisplayFor(modelItem => item.Title)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.Author)
+    </td>
+    <td>
+    @{
+      DateTime dt = DateTime.ParseExact(item.LoanDate, "dd-MM-yyyy", null);
+      string Date = dt.ToString("dd-MM-yyyy");
+            <span>@Date</span>
+    }
+    </td>
+    <td>
+    @if (item.LoanDate != "")
+    {
+      DateTime dt2 = DateTime.ParseExact(item.LoanDate, "dd-MM-yyyy", null).AddDays(10);
+      DateTime today = DateTime.Today;
+      string availDate = dt2.ToString("dd-MM-yyyy");
+      if (today >= dt2)
+      {
+              <span style="color:red">@availDate<span class="overdue badge" style="color:red" data-toggle="tooltip" title="@((today - dt2).TotalDays) day(s) late!">@((today - dt2).TotalDays)</span></span>
+      }
+      else
+      {
+    <span>@availDate</span>
+      }
+
+    }
+    </td>
+    </tr>
+      }
+
+  </table>
+  </div>
+  </div>
+  <script>
+    
+    var badges = document.getElementsByClassName('overdue badge').length
+    console.log(badges)
+    if (badges > 0) {
+      console.log(badges)
+      var x = document.getElementById("overdue");
+      x.innerHTML = 'You have ' + badges + ' overdue loaned book(s)';
+      console.log(badges)
+    }
+    window.onload = function() {
+      $('[data-toggle="tooltip"]').tooltip();
+    };
+  </script>

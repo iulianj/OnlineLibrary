@@ -1,0 +1,325 @@
+﻿@model OnlineLibrary.Areas.Admin.Models.AddBookModel
+
+@{
+  ViewBag.Title = "Add New Book";
+}
+
+<div class="col-sm-9 text-left">
+  <h1 class="title">Add New Book</h1>
+
+  <div class="modal fade" id="alertModal" role="dialog" style="z-index:99999">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Error...</h4>
+        </div>
+        <div class="modal-body">
+          <div id="alertMsg"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="authModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add new author</h4>
+        </div>
+        <div class="modal-body">
+          @using (Ajax.BeginForm("Addnew", "Authors", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "" }, new { id = "addAuthor_form" }))
+          {
+            <div class="form-horizontal">
+              <div class="form-group">
+                <label class="control-label col-md-4" for="authorFirstName">First Name</label>
+                <div class="col-md-8">
+                  <input type="text" style="text-transform: capitalize" class="form-control" required data-val="true" data-val-required="First Name field is required." name="authorFirstName" id="authorFirstName" autofocus/>
+                  <span class="field-validation-valid text-danger" data-valmsg-for="authorFirstName" data-valmsg-replace="true"></span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-4" for="authorLastName">Last Name</label>
+                <div class="col-md-8">
+                  <input type="text" style="text-transform: capitalize" class="form-control" required data-val="true" data-val-required="Last Name field is required."  name="authorLastName" id="authorLastName" />
+                  <span class="field-validation-valid text-danger" data-valmsg-for="authorLastName" data-valmsg-replace="true"></span>
+                </div>
+              </div>
+            </div>
+
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-default" value="Add" id="addNewAuthor">
+            <button type="button" class="btn btn-default" id="closeNewAuthor" data-dismiss="modal">Close</button>
+          </div>
+          }
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div id="catModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add new category</h4>
+        </div>
+        <div class="modal-body">
+          @using (Ajax.BeginForm("Addnew", "Categories", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "" }, new { id = "addCategory_form" }))
+          {
+            <div class="form-horizontal">
+              <div class="form-group">
+                <label class="control-label col-md-4" for="category">Category</label>
+                <div class="col-md-8">
+                  <input type="text" style="text-transform: capitalize" class="form-control" required data-val="true" data-val-required="Category field is required." name="category" id="category" autofocus/>
+                  <span class="field-validation-valid text-danger" data-valmsg-for="category" data-valmsg-replace="true"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <input type="submit" class="btn btn-default" value="Add" id="addNewCategory">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          }
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div id="pubModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add new publishing</h4>
+        </div>
+        <div class="modal-body">
+          @using (Ajax.BeginForm("Addnew", "Publishings", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "" }, new { id = "addPublishing_form" }))
+          {
+            <div class="form-horizontal">
+              <div class="form-group">
+                <label class="control-label col-md-4" for="category">Publishing</label>
+                <div class="col-md-8">
+                  <input type="text" style="text-transform: capitalize" class="form-control" required data-val="true" data-val-required="Publishing field is required." name="publishing" id="publishing" autofocus/>
+                  <span class="field-validation-valid text-danger" data-valmsg-for="category" data-valmsg-replace="true"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <input type="submit" class="btn btn-default" value="Add" id="addNewPublishing">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          }
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  @using (Html.BeginForm("Add", "DashBoard", FormMethod.Post, new { enctype = "multipart/form-data" }))
+  {
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+      <br /><br />
+      @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+      <div class="form-group">
+        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+          @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+          @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+        </div>
+      </div>
+
+      <div class="form-group">
+        @Html.LabelFor(model => model.AuthorID, "Author", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+          @Html.DropDownList("AuthorID", null, htmlAttributes: new { id = "authorDropDownList", @class = "form-control" })
+          @Html.ValidationMessageFor(model => model.AuthorID, "", new { @class = "text-danger" })
+          @Html.ActionLink("Add new author", "", "", null, new { data_toggle = "modal", data_target = "#authModal" })
+        </div>
+
+      </div>
+
+      <div class="form-group">
+        @Html.LabelFor(model => model.ISBN, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+          @Html.EditorFor(model => model.ISBN, new { htmlAttributes = new { @class = "form-control" } })
+          @Html.ValidationMessageFor(model => model.ISBN, "", new { @class = "text-danger" })
+        </div>
+      </div>
+
+      <div class="form-group">
+        @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+          @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
+          @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+        </div>
+      </div>
+
+      <div class="form-group">
+        @Html.LabelFor(model => model.NoOfBooks, "No. of Books", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+          @Html.EditorFor(model => model.NoOfBooks, new { htmlAttributes = new { @class = "form-control" } })
+          @Html.ValidationMessageFor(model => model.NoOfBooks, "", new { @class = "text-danger" })
+        </div>
+      </div>
+
+      <div class="form-group">
+        @Html.LabelFor(model => model.CategoriesID, "Category", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+          @Html.DropDownList("CategoriesID", null, htmlAttributes: new { id="categoryDropDownList", @class = "form-control" })
+          @Html.ValidationMessageFor(model => model.CategoriesID, "", new { @class = "text-danger" })
+          @Html.ActionLink("Add new category", "", "", null, new { data_toggle = "modal", data_target = "#catModal" })
+        </div>
+      </div>
+
+      <div class="form-group">
+        @Html.LabelFor(model => model.PublishingsID, "Publishing", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+          @Html.DropDownList("PublishingsID", null, htmlAttributes: new { id = "publishingDropDownList", @class = "form-control" })
+          @Html.ValidationMessageFor(model => model.PublishingsID, "", new { @class = "text-danger" })
+          @Html.ActionLink("Add new publishing", "", "", null, new { data_toggle = "modal", data_target = "#pubModal" })
+        </div>
+      </div>
+
+
+
+      <div class="form-group">
+        <label class="control-label col-md-2">Image</label>
+        <div class="col-md-10">
+
+          @Html.TextBoxFor(model => model.File, new { @class = "inputfile inputfile-1", id = "File", type = "file" })
+
+          <label for="File"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg> <span>Choose a file…</span></label>
+
+
+          @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger" })
+        </div>
+      </div>
+
+
+
+
+      <div class="form-group">
+        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+          @Html.TextAreaFor(model => model.Description, new { @class = "form-control", style = "height:150px" })
+          @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+          <input type="submit" value="Add" class="btn btn-default" />
+        </div>
+      </div>
+    </div>
+  }
+
+  <div>
+    @Html.ActionLink("Back to List", "Index")
+  </div>
+
+</div>
+
+<script>
+  window.onload = function () {
+    $('#ISBN').on("keypress", function () {
+      if ($('#ISBN').val()!=null)
+      $('#ISBN').val($('#ISBN').val().match(/\d{3}(?=\d{1,3})|\d+/g).join("-"))
+    });
+    
+    $(document).on("submit","#addAuthor_form", function (e) {
+      var authorCapitalized = ($("#authorFirstName").val() + " " + $("#authorLastName").val()).toLowerCase().replace(/\b[a-z]/g, function (letter) {
+        return letter.toUpperCase();
+      });
+      if ($("#authorDropDownList option:contains('" + authorCapitalized + "')").length > 0) {
+        var alertMsg = "Author " + authorCapitalized + " already exits!!!"
+        $("#alertMsg").text(alertMsg);
+        $("#alertModal").modal('show');
+        return false;
+      }
+      var url = '@Url.Action("populateDropDown", "Authors")';
+      var authors = $('#authorDropDownList');
+      $.getJSON(url, function (response) {
+        authors.empty();
+        var isSelected="";
+        $.each(response, function (index, item) {
+          isSelected = (item.Text == authorCapitalized) ? "selected" : "";
+          authors.append($('<option '+isSelected+'></option>').text(item.Text).val(item.AuthorID));
+
+        });
+      });
+      $('#authModal').modal('toggle');
+      $('#addAuthor_form').each(function () {
+        this.reset();
+      });
+    });
+
+    $(document).on("submit","#addPublishing_form", function (e) {
+      var publishingCapitalized = $("#publishing").val().toLowerCase().replace(/\b[a-z]/g, function (letter) {
+        return letter.toUpperCase();
+      });
+      if ($("#publishingDropDownList option:contains('" + publishingCapitalized + "')").length > 0) {
+        var alertMsg="Publishing " + publishingCapitalized + " already exits!!!"
+        $("#alertMsg").text(alertMsg);
+        $("#alertModal").modal('show')
+        e.preventDefault();
+        return false;
+      }
+      var url = '@Url.Action("populateDropDown", "Publishings")';
+      var publishings = $('#publishingDropDownList');
+      $.getJSON(url, function (response) {
+        publishings.empty();
+        var isSelected = "";
+        $.each(response, function (index, item) {
+          isSelected = (item.Text == publishingCapitalized) ? "selected" : "";
+          publishings.append($('<option ' + isSelected + '></option>').text(item.Text).val(item.PublishingID));
+
+        });
+      });
+      $('#pubModal').modal('toggle');
+      $('#addPublishing_form').each(function () {
+        this.reset();
+      });
+    });
+
+    $(document).on("submit","#addCategory_form", function (e) {
+      var categoryCapitalized = $("#category").val().toLowerCase().replace(/\b[a-z]/g, function (letter) {
+        return letter.toUpperCase();
+      });
+      if ($("#categoryDropDownList option:contains('" + categoryCapitalized + "')").length > 0) {
+        var alertMsg = "Category " + categoryCapitalized + " already exits!!!"
+        $("#alertMsg").text(alertMsg);
+        $("#alertModal").modal('show')
+        return false;
+      }
+      var url = '@Url.Action("populateDropDown", "Categories")';
+      var categories = $('#categoryDropDownList');
+      $.getJSON(url, function (response) {
+        categories.empty();
+        var isSelected = "";
+        $.each(response, function (index, item) {
+          isSelected = (item.Text == categoryCapitalized) ? "selected" : "";
+          categories.append($('<option ' + isSelected + '></option>').text(item.Text).val(item.CategoryID));
+
+        });
+      });
+      $('#catModal').modal('toggle');
+      $('#catAuthor_form').each(function () {
+        this.reset();
+      });
+    });
+  }
+</script>

@@ -1,0 +1,83 @@
+﻿
+<div class="col-sm-3 sidenav">
+  <div class="sidenav_header">SEARCH FOR BOOKS</div>
+  @*@using (Html.BeginForm("Search", "Manage", null, FormMethod.Post, new { id = "search_form", @class = "search_form" }))*@
+  @using (Ajax.BeginForm("Index", "Books", null, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "ajax-result" },  new { id = "search_form", @class = "search_form" }))
+  {
+  <!--<form method="POST" class="search_form" action="/manage/search">-->
+    <input type="search" class="search_input" placeholder="Search…" value="" name="searchString" id="s" title="Cauta:">
+    <button type="submit" id="search_button" value="Cauta" class="glyphicon glyphicon-search"></button>
+    <!--<div class="search_in">
+          <span>Search in:</span><br />
+
+          <input type="checkbox" name="title" id="title" />
+          <label for="title">Title</label>
+          <input type="checkbox" name="author" id="author" />
+          <label for="author">Author</label>
+          <input type="checkbox" name="ISBN" id="ISBN" />
+          <label for="ISBN">ISBN</label>
+          <input type="checkbox" name="year" id="year" />          
+          <label for="year">Year</label>
+        </div>-->
+  }
+@using (Ajax.BeginForm("FilterBooks", "Books", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "ajax-result" }, new { id = "filter_form" }))
+
+{
+  <div class="sidenav_header filters hidden">ACTIVE FILTERS</div>
+  <ul class="side_bar filters hidden"></ul>
+  <button class="btn btn-danger hidden" style="margin-top:10px">Clear all filters</button>
+  <div class="sidenav_header">CATEGORIES</div>
+  <ul class="side_bar">
+    @foreach (var item in OnlineLibrary.myClasses.Helper.GetSideBarElements("categories"))
+    {
+      <li>
+        <input type="checkbox" onchange="$('#filter_form').submit();" name="CategoriesID" id="@item.Categories" value="@item.ID" />
+        <label for="@item.Categories">
+          @item.Categories
+          <span class="badge">@item.CatBadge</span>
+        </label>
+      </li>
+      }
+  </ul>
+  <div class="sidenav_header">AUTHOR</div>
+  <ul class="side_bar">
+    @foreach (var item in OnlineLibrary.myClasses.Helper.GetSideBarElements("author"))
+    {
+            <li>
+              <input type="checkbox" onchange="$('#filter_form').submit();" name="AuthorsID" id="@item.Authors" value="@item.ID" />
+              <label for="@item.Authors">
+                @item.Authors
+                <span class="badge">@item.AuthBadge</span>
+              </label>
+            </li>
+    }
+  </ul>
+  <div class="sidenav_header">PUBLISHING</div>
+  <ul class="side_bar">
+    @foreach (var item in OnlineLibrary.myClasses.Helper.GetSideBarElements("publishing"))
+    {
+                  <li>
+                    <input type="checkbox" onchange="$('#filter_form').submit();" name="PublishingsID" id="@item.Publishings" value="@item.ID" />
+                    <label for="@item.Publishings">
+                      @item.Publishings
+                      <span class="badge">@item.PubBadge</span>
+                    </label>
+                  </li>
+    }
+  </ul>
+  <div class="sidenav_header">YEAR</div>
+  <ul class="side_bar">
+    @foreach (var item in OnlineLibrary.myClasses.Helper.GetSideBarElements("year"))
+    {
+                        <li>
+                          <input type="checkbox" onchange="$('#filter_form').submit();" name="Year" id="@item.Year" value="@item.Year" />
+                          <label for="@item.Year">
+                            @item.Year
+                            <span class="badge">@item.YearBadge</span>
+                          </label>
+                        </li>
+    }
+  </ul>
+}
+</div>  
+        

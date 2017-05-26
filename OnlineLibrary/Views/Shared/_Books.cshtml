@@ -1,0 +1,201 @@
+﻿@using OnlineLibrary.myClasses
+@model IEnumerable<OnlineLibrary.Models.BookViewModel>
+<div class="col-sm-9 text-left">
+  <h1 class="title">@ViewBag.Title</h1>
+  <div id="modal-book">
+
+    <div class="modal-content" id="modal">
+      <div id="closebt-container" class="close-modal-book">
+        <img class="closebt" src="../../images/close.gif">
+      </div>
+      <div id="ajax-modal"></div>
+    </div>
+  </div>
+
+  @using (Ajax.BeginForm("SortBooks", "Books", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "ajax-result" }, new { id = "sort_form" }))
+  {
+
+    <select name="orderby" class="orderby" onchange="$('#sort_form').submit();">
+      <option value="none" selected disabled>Sort by</option>
+      <option value="category">Sort by category</option>
+      <option value="author">Sort by Author</option>
+      <option value="title">Sort by Title</option>
+      <option value="publishing">Sort by Publishing</option>
+      <option value="year">Sort by Year: Low to High</option>
+      <option value="year-desc">Sort by Year: High to Low</option>
+    </select>
+  }
+
+  <div id="books_result" class="books_result">
+    <span id="subtitle">@Html.Raw(@ViewBag.SubTitle)</span>
+    @if (ViewBag.Count == 1)
+      {
+      @ViewBag.Count<span> book</span><br />
+    }
+    else
+    {
+      @ViewBag.Count<span> books</span><br />
+    }
+    <div class="container">
+      <div class="books_container">
+        @foreach (var item in Model)
+      {
+          <div class="books">
+
+            <a href="#modal-book" id="@item.ID">
+
+              <div class='book_badge @(item.Availability==0 ? " unavailable" : " available")'></div>
+              <div class="books_image">
+                <img src="@item.imageURL" alt="">
+              </div>
+              <div class="book_author">@Html.DisplayFor(modelItem => item.Author)</div>
+              <div class="book_title">@Html.DisplayFor(modelItem => item.Title)</div>
+            </a>
+            @if (item.AvailabilityDate != "" && item.Availability==0)
+            {
+              DateTime dt = DateTime.ParseExact(item.AvailabilityDate, "dd-MM-yyyy", null).AddDays(10);
+              string availDate = dt.ToString("dd-MM-yyyy");
+              <div class="book_avail">Available on<br />@availDate</div>
+            }
+            else
+            {
+              <div loanedId="@item.ID" class="book_rent_button">LOAN</div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+  </div>
+  <div style="text-align: center;">
+    @if (ViewBag.TotalPages>1) {
+        <ul class="pagination">
+          <li class="page-item">
+            @Html.ActionLink("«", "Index", "Books", new {page=1}, new { data_action=@ViewBag.Action, @class = "page-link", data_page = 1, data_searchString = @ViewBag.SearchString, data_orderby = @ViewBag.OrderBy })
+          </li>
+          @for (int i = 1; i < ViewBag.TotalPages + 1; i++)
+          {
+            <li class='page-item @(ViewBag.CurrentPage == i ? "active" : "")'>
+              @Html.ActionLink(i.ToString(), "Index", "Books", new { page = i }, new { data_action = @ViewBag.Action, data_page = i, data_searchString = @ViewBag.SearchString, data_orderby=@ViewBag.OrderBy })
+            </li>
+          }
+          <li>@Html.ActionLink("»", "Index", "Books", new { page = @ViewBag.TotalPages }, new { data_action = @ViewBag.Action, data_page = @ViewBag.TotalPages, data_searchString = @ViewBag.SearchString, data_orderby = @ViewBag.OrderBy })</li>
+        </ul>
+    }
+  </div>
+
+</div>
+<script>
+  if (document.readyState === "complete") {
+    $('[data-toggle="tooltip"]').tooltip();
+  
+    //function submitFilters(e) {
+    //  console.log(this.action)
+    //  event.preventDefault();
+      
+    //}
+    //console.log("selected by" + $('.orderby')[0].selectedIndex)
+    //if ($('.orderby')[0].selectedIndex === 0) {
+    //  console.log("selected inside if" + $('.orderby')[0].selectedIndex)
+    //  //$('.orderby').val('none').prop('selected', true)
+    //}
+    $('.pagination a').on("click", function (event) {
+      
+      if ($(this).data('action') == "filter") {
+        event.preventDefault();
+        var myJson = $('#filter_form').serialize() + "&page=" + $(this).data('page');
+        $.ajax({
+          url: "../Books/FilterBooks",
+          type: "POST",
+          datatype: 'json',
+          data: myJson,
+          success: function (data) {
+            $("#ajax-result").html(data);
+            console.log("succes filter call");
+          },
+          error: function (data) {
+            console.log("eroare");
+          }
+
+        });
+      }
+      if ($(this).data('action') == "search") {
+        event.preventDefault();
+        
+        $.ajax({
+          url: this.action,
+          type: "GET",
+          data: { page: $(this).data('page'), searchString: $(this).data('searchstring') },
+          success: function (data) {
+            $("#ajax-result").html(data);
+            console.log("succes");
+          },
+          error: function (data) {
+            console.log("eroare");
+          }
+
+        });
+      }
+      if ($(this).data('action') == "sort") {
+        event.preventDefault();
+
+        $.ajax({
+          url: "../Books/SortBooks",
+          type: "POST",
+          data: { page: $(this).data('page'), orderby: $(this).data('orderby') },
+          success: function (data) {
+            $("#ajax-result").html(data);
+            console.log("succes");
+          },
+          error: function (data) {
+            console.log("eroare");
+          }
+
+        });
+      }
+      $('html, body').animate({ scrollTop: 300 }, 500);
+    });
+
+
+
+    $(".books>a").animatedModal({
+      modalTarget: 'modal-book',
+      animatedIn: 'zoomIn',
+      animatedOut: 'zoomOut',
+      color: '#ffffff',
+      // Callbacks
+      beforeOpen: function () {
+        console.log("ID html:");
+      },
+      afterOpen: function () {
+        console.log(" ");
+      },
+      beforeClose: function () {
+        console.log(" ");
+      },
+      afterClose: function () {
+        console.log(" ");
+      }
+    });
+
+    var str = $('#subtitle').html().toLowerCase();
+    var orderBy = str.substring(str.lastIndexOf("<b>") + 3, str.lastIndexOf("</b>"));
+    console.log(orderBy)
+    switch (orderBy) {
+      case "year ascending":
+        orderBy = "year";
+        break;
+      case "year descending":
+        orderBy = "year-desc";
+        break;
+    }
+    console.log("orderby "+orderBy)
+    if (orderBy.length>3) {
+      $('.orderby').val(orderBy).prop('selected', true)
+    } else {
+      $('.orderby').val("none").prop('selected', true)
+    }
+    
+  };
+  
+</script>

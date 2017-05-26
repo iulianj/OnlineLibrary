@@ -1,0 +1,60 @@
+﻿@model IEnumerable<OnlineLibrary.Models.UserViewModel>
+
+@{
+  ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+  @Html.ActionLink("Create New", "Create")
+</p>
+<div>
+  Total Records Count: @ViewBag.Count
+</div>
+<table class="table">
+  <tr>
+    <th>
+      @Html.DisplayNameFor(model => model.FirstName)
+    </th>
+    <th>
+      @Html.DisplayNameFor(model => model.LastName)
+    </th>
+    <th></th>
+  </tr>
+
+  @foreach (var item in Model)
+  {
+    <tr>
+      <td>
+        @Html.DisplayFor(modelItem => item.FirstName)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.LastName)
+      </td>
+      <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+        @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+      </td>
+    </tr>
+  }
+
+</table>
+
+<div>
+  Page @ViewBag.CurrentPage / @ViewBag.TotalPages
+  <br />
+
+  Total pages: @(ViewBag.Count / ViewBag.PageSize)
+</div>
+
+<div>
+  @for (int i = 1; i < ViewBag.TotalPages + 1; i++)
+  {
+    <ul class="pagination">
+      <li>@Html.ActionLink(i.ToString(), "Index", "Users", new { page = i, sort="FirstName", sortDir="desc" }, null)</li>
+      </ul>
+     
+      }
+</div>
