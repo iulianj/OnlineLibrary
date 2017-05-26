@@ -18,7 +18,7 @@ namespace OnlineLibrary.Areas.Admin.Controllers
       this.service = service;
     }
     [HttpPost]
-    public ActionResult Addnew(string publishing)
+    public ActionResult AddNew(string publishing)
     {
       Publishings newPublishing = new Publishings();
       newPublishing.Publishing = publishing.Capitalize();
@@ -28,7 +28,7 @@ namespace OnlineLibrary.Areas.Admin.Controllers
       return new EmptyResult();
     }
 
-    public JsonResult populateDropDown()
+    public JsonResult PopulateDropDown()
     {
 
       List<Publishings> allPublishings = service.GetAllPublishings();

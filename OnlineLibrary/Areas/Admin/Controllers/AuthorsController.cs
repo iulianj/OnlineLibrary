@@ -22,7 +22,7 @@ namespace OnlineLibrary.Areas.Admin.Controllers
       this.service = service;
     }
     [HttpPost]
-    public ActionResult Addnew(string authorFirstName, string authorLastName)
+    public ActionResult AddNew(string authorFirstName, string authorLastName)
     {
       Authors newAuthor = new Authors();
       newAuthor.FirstName = authorFirstName.Capitalize();
@@ -33,7 +33,7 @@ namespace OnlineLibrary.Areas.Admin.Controllers
       return new EmptyResult();
     }
 
-    public JsonResult populateDropDown() { 
+    public JsonResult PopulateDropDown() { 
 
       List<Authors> allAuthors = service.GetAllAuthors();
       var authors = allAuthors.Select(a => new

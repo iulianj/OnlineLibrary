@@ -18,7 +18,7 @@ namespace OnlineLibrary.Areas.Admin.Controllers
       this.service = service;
     }
     [HttpPost]
-    public ActionResult Addnew(string category)
+    public ActionResult AddNew(string category)
     {
       Categories newCategory = new Categories();
       newCategory.Category = category.Capitalize();
@@ -28,7 +28,7 @@ namespace OnlineLibrary.Areas.Admin.Controllers
       return new EmptyResult();
     }
 
-    public JsonResult populateDropDown()
+    public JsonResult PopulateDropDown()
     {
 
       List<Categories> allCategories = service.GetAllCategories();

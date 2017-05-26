@@ -33,7 +33,7 @@
           <h4 class="modal-title">Add new author</h4>
         </div>
         <div class="modal-body">
-          @using (Ajax.BeginForm("Addnew", "Authors", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "" }, new { id = "addAuthor_form" }))
+          @using (Ajax.BeginForm("AddNew", "Authors", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "" }, new { id = "addAuthor_form" }))
           {
             <div class="form-horizontal">
               <div class="form-group">
@@ -71,7 +71,7 @@
           <h4 class="modal-title">Add new category</h4>
         </div>
         <div class="modal-body">
-          @using (Ajax.BeginForm("Addnew", "Categories", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "" }, new { id = "addCategory_form" }))
+          @using (Ajax.BeginForm("AddNew", "Categories", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "" }, new { id = "addCategory_form" }))
           {
             <div class="form-horizontal">
               <div class="form-group">
@@ -102,7 +102,7 @@
           <h4 class="modal-title">Add new publishing</h4>
         </div>
         <div class="modal-body">
-          @using (Ajax.BeginForm("Addnew", "Publishings", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "" }, new { id = "addPublishing_form" }))
+          @using (Ajax.BeginForm("AddNew", "Publishings", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "" }, new { id = "addPublishing_form" }))
           {
             <div class="form-horizontal">
               <div class="form-group">
@@ -250,7 +250,7 @@
         $("#alertModal").modal('show');
         return false;
       }
-      var url = '@Url.Action("populateDropDown", "Authors")';
+      var url = '@Url.Action("PopulateDropDown", "Authors")';
       var authors = $('#authorDropDownList');
       $.getJSON(url, function (response) {
         authors.empty();
@@ -278,7 +278,7 @@
         e.preventDefault();
         return false;
       }
-      var url = '@Url.Action("populateDropDown", "Publishings")';
+      var url = '@Url.Action("PopulateDropDown", "Publishings")';
       var publishings = $('#publishingDropDownList');
       $.getJSON(url, function (response) {
         publishings.empty();
@@ -305,7 +305,7 @@
         $("#alertModal").modal('show')
         return false;
       }
-      var url = '@Url.Action("populateDropDown", "Categories")';
+      var url = '@Url.Action("PopulateDropDown", "Categories")';
       var categories = $('#categoryDropDownList');
       $.getJSON(url, function (response) {
         categories.empty();
