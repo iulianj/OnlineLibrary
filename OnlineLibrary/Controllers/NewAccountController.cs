@@ -12,12 +12,12 @@ using System.Web.Security;
 
 namespace OnlineLibrary.Controllers
 {
-    public class MyAccountController : Controller
+    public class NewAccountController : Controller
     {
 
     public IUserService service { get; set; }
 
-    public MyAccountController(IUserService service)
+    public NewAccountController(IUserService service)
     {
       this.service = service;
     }
@@ -103,7 +103,7 @@ namespace OnlineLibrary.Controllers
           string hashedPassword = Security.HashSHA1(newUser.Password + newUser.Salt);
           newUser.Password = hashedPassword;
           service.CreateUser(newUser);
-          return RedirectToAction("LogIn", "MyAccount");
+          return RedirectToAction("LogIn", "NewAccount");
         }
 
 

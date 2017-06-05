@@ -31,23 +31,23 @@
     @foreach (var item in OnlineLibrary.myClasses.Helper.GetSideBarElements("categories"))
     {
       <li>
-        <input type="checkbox" onchange="$('#filter_form').submit();" name="CategoriesID" id="@item.Categories" value="@item.ID" />
-        <label for="@item.Categories">
-          @item.Categories
-          <span class="badge">@item.CatBadge</span>
+        <input type="checkbox" onchange="$('#filter_form').submit();" name="CategoriesID" id="@item.Category" value="@item.ID" />
+        <label for="@item.Category">
+          @item.Category
+          <span class="badge">@item.Badge</span>
         </label>
       </li>
       }
   </ul>
   <div class="sidenav_header">AUTHOR</div>
   <ul class="side_bar">
-    @foreach (var item in OnlineLibrary.myClasses.Helper.GetSideBarElements("author"))
+    @foreach (var item in OnlineLibrary.myClasses.Helper.GetSideBarElements("authors"))
     {
             <li>
               <input type="checkbox" onchange="$('#filter_form').submit();" name="AuthorsID" id="@item.Authors" value="@item.ID" />
               <label for="@item.Authors">
                 @item.Authors
-                <span class="badge">@item.AuthBadge</span>
+                <span class="badge">@item.Badge</span>
               </label>
             </li>
     }
@@ -56,28 +56,29 @@
   <ul class="side_bar">
     @foreach (var item in OnlineLibrary.myClasses.Helper.GetSideBarElements("publishing"))
     {
-                  <li>
-                    <input type="checkbox" onchange="$('#filter_form').submit();" name="PublishingsID" id="@item.Publishings" value="@item.ID" />
-                    <label for="@item.Publishings">
-                      @item.Publishings
-                      <span class="badge">@item.PubBadge</span>
-                    </label>
-                  </li>
+      <li>
+        <input type="checkbox" onchange="$('#filter_form').submit();" name="PublishingsID" id="@item.Publishing" value="@item.ID" />
+        <label for="@item.Publishing">
+          @item.Publishing
+          <span class="badge">@item.Badge</span>
+        </label>
+      </li>
     }
   </ul>
   <div class="sidenav_header">YEAR</div>
   <ul class="side_bar">
     @foreach (var item in OnlineLibrary.myClasses.Helper.GetSideBarElements("year"))
     {
-                        <li>
-                          <input type="checkbox" onchange="$('#filter_form').submit();" name="Year" id="@item.Year" value="@item.Year" />
-                          <label for="@item.Year">
-                            @item.Year
-                            <span class="badge">@item.YearBadge</span>
-                          </label>
-                        </li>
+      <li>
+        <input type="checkbox" onchange="$('#filter_form').submit();" name="Year" id="@item.Year" value="@item.Year" />
+        <label for="@item.Year">
+          @item.Year
+          <span class="badge">@item.Badge</span>
+        </label>
+      </li>
     }
   </ul>
+
 }
 </div>  
         

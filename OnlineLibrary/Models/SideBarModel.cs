@@ -10,7 +10,7 @@ namespace OnlineLibrary.Models
     public int? ID { get; set; }
     public string Authors { get; set; }
 
-    public string Categories { get; set; }
+    public string Category { get; set; }
 
     public string Publishings { get; set; }
 

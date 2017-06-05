@@ -33,6 +33,9 @@
 	html, body{
 		height:100%;
 	}
+  .field-validation-valid {
+    display: none;
+}
 
 	.page-wrap{
 		min-height:100%;

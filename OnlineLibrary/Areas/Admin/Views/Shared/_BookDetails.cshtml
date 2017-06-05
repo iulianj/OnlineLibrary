@@ -1,0 +1,93 @@
+﻿@model OnlineLibrary.Models.BookViewModel
+
+<div class="col-sm-9 text-left">
+  <h1 class="title">Book Details</h1>
+
+  <dl class="dl-horizontal">
+    <dt>
+      @Html.DisplayNameFor(model => model.Title)
+    </dt>
+
+    <dd>
+      @Html.DisplayFor(model => model.Title)
+    </dd>
+
+    <dt>
+      @Html.DisplayNameFor(model => model.Author)
+    </dt>
+
+    <dd>
+      @Html.DisplayFor(model => model.Author)
+    </dd>
+
+    <dt>
+      @Html.DisplayNameFor(model => model.ISBN)
+    </dt>
+
+    <dd>
+      @Html.DisplayFor(model => model.ISBN)
+    </dd>
+
+    <dt>
+      @Html.DisplayNameFor(model => model.Category)
+    </dt>
+
+    <dd>
+      @Html.DisplayFor(model => model.Category)
+    </dd>
+
+    <dt>
+      @Html.DisplayNameFor(model => model.Availability)
+    </dt>
+
+    <dd>
+      @Html.DisplayFor(model => model.Availability)
+    </dd>
+
+    <dt>
+      @Html.DisplayNameFor(model => model.AvailabilityDate)
+    </dt>
+
+    <dd>
+      @Html.DisplayFor(model => model.AvailabilityDate)
+    </dd>
+
+    <dt>
+      @Html.DisplayName("Image")
+    </dt>
+
+    <dd>
+      @Html.DisplayFor(model => model.imageURL)
+    </dd>
+
+    <dt>
+      @Html.DisplayNameFor(model => model.Publishing)
+    </dt>
+
+    <dd>
+      @Html.DisplayFor(model => model.Publishing)
+    </dd>
+
+    <dt>
+      @Html.DisplayNameFor(model => model.Year)
+    </dt>
+
+    <dd>
+      @Html.DisplayFor(model => model.Year)
+    </dd>
+
+    <dt>
+      @Html.DisplayNameFor(model => model.Description)
+    </dt>
+
+    <dd>
+      @Html.DisplayFor(model => model.Description)
+    </dd>
+
+  </dl>
+
+  <p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+  </p>
+</div>

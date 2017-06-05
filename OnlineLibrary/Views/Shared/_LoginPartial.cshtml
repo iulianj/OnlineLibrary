@@ -1,7 +1,7 @@
 ﻿@using OnlineLibrary.myClasses;
 @if (Session["user_name"] != null)
 {
-  using (Html.BeginForm("LogOff", "MyAccount", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+  using (Html.BeginForm("LogOff", "NewAccount", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
   {
     @Html.AntiForgeryToken()
 
@@ -14,11 +14,11 @@
         }
         else
         {
-          @Html.ActionLink("MyAccount", "YAccount", "Loans")
+          @Html.ActionLink("NewAccount", "YAccount", "Loans")
         }
       </li>
       <li>
-        @Html.ActionLink("Log off", "Logoff", "MyAccount", new { area = "" }, null)
+        @Html.ActionLink("Log off", "Logoff", "NewAccount", new { area = "" }, null)
       </li>
     </ul>
   }
@@ -26,8 +26,8 @@
 else
 {
   <ul class="nav navbar-nav navbar-right">
-    <li>@Html.ActionLink("Register", "Register", "MyAccount", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-    <li>@Html.ActionLink("Log in", "Login", "MyAccount", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    <li>@Html.ActionLink("Register", "Register", "NewAccount", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+    <li>@Html.ActionLink("Log in", "Login", "NewAccount", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
   </ul>
 }
 

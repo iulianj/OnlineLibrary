@@ -7,13 +7,13 @@ using System.Web.Routing;
 
 namespace OnlineLibrary.myClasses
 {
-  public class MyRoleAuthorization : AuthorizeAttribute
+  public class RoleAuthorization : AuthorizeAttribute
   {
 
     readonly string[] allowedTypes;
 
 
-    public MyRoleAuthorization(params string[] allowedTypes)
+    public RoleAuthorization(params string[] allowedTypes)
     {
       this.allowedTypes = allowedTypes;
     }
@@ -56,7 +56,7 @@ namespace OnlineLibrary.myClasses
         filterContext.Result=new RedirectToRouteResult(
                new RouteValueDictionary
                {
-                    { "controller", "MyAccount" },
+                    { "controller", "NewAccount" },
                     { "action", "Login" },
                     { "area",""}
                });

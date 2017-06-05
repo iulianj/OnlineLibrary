@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace OnlineLibrary.Areas.Admin.Models
 {
@@ -20,7 +21,11 @@ namespace OnlineLibrary.Areas.Admin.Models
     [Required]
     public string Description { get; set; }
     public HttpPostedFileBase File { get; set; }
+    public string imageURL { get; set; }
 
+    public SelectList Authors { get; set; }
+    public SelectList Categories { get; set; }
+    public SelectList Publishings { get; set; }
 
     public int CategoriesID { get; set; }
     public int PublishingsID { get; set; }

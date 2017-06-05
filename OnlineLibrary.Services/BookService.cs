@@ -31,6 +31,12 @@ namespace OnlineLibrary.Services
       unitOfWork.Commit();
     }
 
+    public void EditBook(Books book)
+    {
+      bookRepo.Update(book);
+      unitOfWork.Commit();
+    }
+
     public List<Books> GetList(int pageNumber, int pageSize, string sort, string sortDir)
     {
       return bookRepo.GetAll().Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();

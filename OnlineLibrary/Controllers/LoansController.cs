@@ -34,7 +34,7 @@ namespace OnlineLibrary.Controllers
       else
       {
         TempData["must_login"] = "You must be logged in to loan books! Register if you don't have an account yet.";
-        return RedirectToAction("../MyAccount/Login");
+        return RedirectToAction("../NewAccount/Login");
       }
 
       return PartialView("_Loan", model);

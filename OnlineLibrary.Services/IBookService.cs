@@ -12,6 +12,8 @@ namespace OnlineLibrary.Services
     List<Books> GetAllBooks();
     List<Books> GetList(int pageNumber, int pageSize, string sort, string sortDir);
     void CreateBook(Books book);
+
+    void EditBook(Books book);
     int Count();
   }
 }

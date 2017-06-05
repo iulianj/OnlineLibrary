@@ -54,6 +54,8 @@ namespace OnlineLibrary.App_Start
 
       container.Register<IPublishingService, PublishingService>(webLifestyle);
 
+      container.Register<ITempService, TempService>(webLifestyle);
+
 
       //register generic repository
       container.Register(typeof(IRepository<>), typeof(Repository<>), webLifestyle);

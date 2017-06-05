@@ -10,6 +10,10 @@ using OnlineLibrary.Models;
 using System.Web.Mvc.Ajax;
 using OnlineLibrary.Data.Entities;
 using System.Globalization;
+using OnlineLibrary.Services;
+using Omu.ValueInjecter;
+using OnlineLibrary.Data.Infrastructure;
+
 
 namespace OnlineLibrary.myClasses
 {
@@ -67,62 +71,62 @@ namespace OnlineLibrary.myClasses
 
 
 
-    public static IQueryable<SideBarModel> GetSideBarElements(string menu)
+    public static List<NewSideBarModel> GetSideBarElements(string menu)
     {
-      BookStoreEntities Context = new BookStoreEntities();
-      IQueryable<SideBarModel> result=null;
       
+      List<NewSideBarModel> result=new List<NewSideBarModel>();
+      
+
       switch (menu)
       {
         case "categories":
           {
-            result = from c in Context.Categories
-                     group c by c.Category into cb
-                     join b in Context.Books on cb.FirstOrDefault().ID equals b.CategoriesID into cbb
-                     select new SideBarModel
-                     {
-                       ID= cb.FirstOrDefault().ID,
-                       Categories = cb.FirstOrDefault().Category,
-                       CatBadge = cbb.Where(l => l.CategoriesID == cb.FirstOrDefault().ID).Count().ToString()
-                     };
+            var service = DependencyResolver.Current.GetService<ICategoryService>();
+            var DbList = service.GetAllCategories();
+            result.InjectFrom(DbList);
+            for (var i = 0; i < result.Count; i++)
+            {
+              result[i].Badge = DbList[i].Books.Count().ToString();
+            }
+            result = result.OrderBy(c => c.Category).ToList();
             break;
           }
-        case "author":
+        case "authors":
           {
-            result = from a in Context.Authors
-                     group a by a.LastName into ab
-                     join b in Context.Books on ab.FirstOrDefault().ID equals b.AuthorID into abb
-                     select new SideBarModel
-                     {
-                       ID = ab.FirstOrDefault().ID,
-                       Authors = ab.FirstOrDefault().FirstName+" "+ ab.FirstOrDefault().LastName,
-                       AuthBadge = abb.Where(l => l.AuthorID == ab.FirstOrDefault().ID).Count().ToString()
-                     };
+            var service = DependencyResolver.Current.GetService<IAuthorService>();
+            var DbList = service.GetAllAuthors();
+            result.InjectFrom(DbList);
+            for (var i = 0; i < result.Count; i++)
+            {
+              result[i].Authors = DbList[i].FullName;
+              result[i].Badge = DbList[i].Books.Count().ToString();
+            }
+            result = result.OrderBy(c => c.Authors.Split(' ').Last()).ToList();
             break;
           }
         case "publishing":
           {
-            result = from p in Context.Publishings
-                     group p by p.Publishing into pb
-                     join b in Context.Books on pb.FirstOrDefault().ID equals b.PublishingsID into pbb
-                     select new SideBarModel
-                     {
-                       ID = pb.FirstOrDefault().ID,
-                       Publishings = pb.FirstOrDefault().Publishing,
-                       PubBadge = pbb.Where(l => l.PublishingsID == pb.FirstOrDefault().ID).Count().ToString()
-                     };
+            var service = DependencyResolver.Current.GetService<IPublishingService>();
+            var DbList = service.GetAllPublishings();
+            result.InjectFrom(DbList);
+            for (var i = 0; i < result.Count; i++)
+            {
+              result[i].Badge = DbList[i].Books.Count().ToString();
+            }
+            result = result.OrderBy(c => c.Publishing).ToList();
             break;
           }
         case "year":
           {
-            result = from b in Context.Books
-                     group b by b.Year into yb
-                     select new SideBarModel
-                     {
-                       ID = yb.FirstOrDefault().ID,
-                       Year = yb.FirstOrDefault().Year.ToString(),
-                       YearBadge = yb.Where(l => l.Year == yb.FirstOrDefault().Year).Count().ToString()
-                     };
+            var service = DependencyResolver.Current.GetService<IBookService>();
+            var DbList = service.GetAllBooks();
+            result.InjectFrom(DbList);
+            for (var i = 0; i < result.Count; i++)
+            {
+              result[i].Year = DbList[i].Year.ToString();
+              result[i].Badge = DbList.FindAll(y=>y.Year==DbList[i].Year).Count().ToString();
+            }
+            result = result.GroupBy(c => c.Year).Select(g=>g.First()).OrderBy(c => c.Year).ToList();
             break;
           }
       }

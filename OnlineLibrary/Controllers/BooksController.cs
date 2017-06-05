@@ -65,8 +65,19 @@ namespace OnlineLibrary.Controllers
       {
         ViewBag.Message = "Sign in please!";
       }
+      if (searchString == null)
+      {
+        return View(model.Skip((pageNumber - 1) * pageSize).Take(pageSize));
+      }
+      else
+      {
+        ViewBag.Title = "Search Result";
+        ViewBag.SubTitle = "Search result: 0 books";
+        ViewBag.Action = "search";
 
-      return View(model.Skip((pageNumber - 1) * pageSize).Take(pageSize));
+
+        return PartialView("_NotFound");
+      }
     }
 
 
