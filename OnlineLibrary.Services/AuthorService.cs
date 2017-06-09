@@ -18,8 +18,10 @@ namespace OnlineLibrary.Services
         this.authorRepo = authorRepo;
         this.unitOfWork = unitOfWork;
       }
+    
 
-      public List<Authors> GetAllAuthors()
+
+      public List<Authors> GetAllRecords()
       {
         return authorRepo.GetAll().ToList();
       }

@@ -20,7 +20,7 @@ namespace OnlineLibrary.Services
       this.unitOfWork = unitOfWork;
     }
 
-    public List<Books> GetAllBooks()
+    public List<Books> GetAllRecords()
     {
       return bookRepo.GetAll().ToList();
     }
@@ -28,6 +28,12 @@ namespace OnlineLibrary.Services
     public void CreateBook(Books book)
     {
       bookRepo.Add(book);
+      unitOfWork.Commit();
+    }
+
+    public void DeleteBook(Books book)
+    {
+      bookRepo.Delete(book);
       unitOfWork.Commit();
     }
 

@@ -225,6 +225,8 @@
     <Compile Include="Areas\Admin\Controllers\CategoriesController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashBoardController.cs" />
     <Compile Include="Areas\Admin\Controllers\PublishingsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReturnLoansController.cs" />
+    <Compile Include="Areas\Admin\Models\ReturnBookModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AuthorsController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
@@ -232,7 +234,7 @@
     <Compile Include="Controllers\LoansController.cs" />
     <Compile Include="Controllers\NewAccountController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="Areas\Admin\Models\AddBookModel.cs" />
+    <Compile Include="Areas\Admin\Models\AdminBookModel.cs" />
     <Compile Include="Models\BookViewModel.cs" />
     <Compile Include="Models\CreateUserViewModel.cs" />
     <Compile Include="Models\NewSideBarModel.cs" />
@@ -277,6 +279,10 @@
     <Content Include="Areas\Admin\Views\Shared\_EditBook.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_BookDetails.cshtml" />
     <Content Include="Areas\Admin\Views\DashBoard\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_DeleteBook.cshtml" />
+    <Content Include="Areas\Admin\Views\DashBoard\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\ReturnLoans\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Loans.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

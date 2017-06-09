@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using OnlineLibrary.Data.Entities;
 using OnlineLibrary.Domain.Entities;
 using OnlineLibrary.Services;
-using OnlineLibrary.myClasses;
+using OnlineLibrary.Classes;
 
 namespace OnlineLibrary.Areas.Admin.Controllers
 {
@@ -27,7 +27,7 @@ namespace OnlineLibrary.Areas.Admin.Controllers
       Authors newAuthor = new Authors();
       newAuthor.FirstName = authorFirstName.Capitalize();
       newAuthor.LastName = authorLastName.Capitalize(); ;
-      if(service.GetAllAuthors().Find(a=>a.FirstName==newAuthor.FirstName && a.LastName == newAuthor.LastName)==null)
+      if(service.GetAllRecords().Find(a=>a.FirstName==newAuthor.FirstName && a.LastName == newAuthor.LastName)==null)
       service.CreateAuthor(newAuthor);
 
       return new EmptyResult();
@@ -35,7 +35,7 @@ namespace OnlineLibrary.Areas.Admin.Controllers
 
     public JsonResult PopulateDropDown() { 
 
-      List<Authors> allAuthors = service.GetAllAuthors();
+      List<Authors> allAuthors = service.GetAllRecords();
       var authors = allAuthors.Select(a => new
       {
         AuthorID = a.ID,

@@ -19,7 +19,7 @@ namespace OnlineLibrary.Services
       this.unitOfWork = unitOfWork;
     }
 
-    public List<Categories> GetAllCategories()
+    public List<Categories> GetAllRecords()
     {
       return categoryRepo.GetAll().ToList();
     }

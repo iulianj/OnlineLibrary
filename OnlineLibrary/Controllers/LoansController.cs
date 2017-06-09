@@ -49,11 +49,11 @@ namespace OnlineLibrary.Controllers
       }
         int userID = Convert.ToInt32(Session["user_id"]);
         List<Loans> loans = service.GetAllLoans().FindAll(l=>l.UserID==userID);
-        List<UserLoanedBooks> myLoans = new List<UserLoanedBooks>();
+        List<UserLoanedBooks> userLoans = new List<UserLoanedBooks>();
         
       foreach (var item in loans)
       {
-        myLoans.Add(
+        userLoans.Add(
           new UserLoanedBooks
           {
             Title = item.Book.Title,
@@ -63,7 +63,7 @@ namespace OnlineLibrary.Controllers
         );
       }
 
-      return View("Account", myLoans);
+      return View("Account", userLoans);
     }
 
   }

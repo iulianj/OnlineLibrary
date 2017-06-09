@@ -12,6 +12,7 @@ namespace OnlineLibrary.Services
     List<Loans> GetAllLoans();
     List<Loans> GetList(int pageNumber, int pageSize, string sort, string sortDir);
     void Loan(Loans loan);
+    void ReturnBook(Loans loan);
     int Count();
   }
 }

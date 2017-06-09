@@ -9,7 +9,7 @@ namespace OnlineLibrary.Services
 {
   public interface ICategoryService
   {
-    List<Categories> GetAllCategories();
+    List<Categories> GetAllRecords();
     void CreateCategory(Categories category);
   }
 }

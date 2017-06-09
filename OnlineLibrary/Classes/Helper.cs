@@ -13,9 +13,10 @@ using System.Globalization;
 using OnlineLibrary.Services;
 using Omu.ValueInjecter;
 using OnlineLibrary.Data.Infrastructure;
+using OnlineLibrary.Domain.Entities;
+using System.Reflection;
 
-
-namespace OnlineLibrary.myClasses
+namespace OnlineLibrary.Classes
 {
   public static class Helper
   {
@@ -71,18 +72,24 @@ namespace OnlineLibrary.myClasses
 
 
 
-    public static List<NewSideBarModel> GetSideBarElements(string menu)
+    public static List<NewSideBarModel> GetSideBarElements<T>(string menu)
     {
-      
-      List<NewSideBarModel> result=new List<NewSideBarModel>();
-      
+
+      List<NewSideBarModel> result = new List<NewSideBarModel>();
+      //var service2 = DependencyResolver.Current.GetService<T>();
+
+      //var allCategories=service2.GetType().InvokeMember("GetAllRecords",
+      //                            BindingFlags.InvokeMethod | BindingFlags.Instance | BindingFlags.Public,
+      //                            null, service2, null);
+      //var allCategories2 = service2.GetType().GetMethod("GetAllRecords").Invoke(service2, null);
+
 
       switch (menu)
       {
         case "categories":
           {
             var service = DependencyResolver.Current.GetService<ICategoryService>();
-            var DbList = service.GetAllCategories();
+            var DbList = service.GetAllRecords();
             result.InjectFrom(DbList);
             for (var i = 0; i < result.Count; i++)
             {
@@ -94,7 +101,7 @@ namespace OnlineLibrary.myClasses
         case "authors":
           {
             var service = DependencyResolver.Current.GetService<IAuthorService>();
-            var DbList = service.GetAllAuthors();
+            var DbList = service.GetAllRecords();
             result.InjectFrom(DbList);
             for (var i = 0; i < result.Count; i++)
             {
@@ -107,7 +114,7 @@ namespace OnlineLibrary.myClasses
         case "publishing":
           {
             var service = DependencyResolver.Current.GetService<IPublishingService>();
-            var DbList = service.GetAllPublishings();
+            var DbList = service.GetAllRecords();
             result.InjectFrom(DbList);
             for (var i = 0; i < result.Count; i++)
             {
@@ -119,7 +126,7 @@ namespace OnlineLibrary.myClasses
         case "year":
           {
             var service = DependencyResolver.Current.GetService<IBookService>();
-            var DbList = service.GetAllBooks();
+            var DbList = service.GetAllRecords();
             result.InjectFrom(DbList);
             for (var i = 0; i < result.Count; i++)
             {
@@ -133,9 +140,9 @@ namespace OnlineLibrary.myClasses
       return result;
     }
 
-    public static string Capitalize(this string toCapitalize)
+    public static string Capitalize(this string ToCapitalize)
     {
-      return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(toCapitalize.ToLower());
+      return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(ToCapitalize.ToLower());
     }
 
 

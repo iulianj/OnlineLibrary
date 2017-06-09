@@ -86,7 +86,7 @@ namespace OnlineLibrary.Controllers
 
       List<BookViewModel> booksList = new List<BookViewModel>();
 
-      var booksDbList = service.GetAllBooks();
+      var booksDbList = service.GetAllRecords();
 
 
       booksList.InjectFrom(booksDbList);

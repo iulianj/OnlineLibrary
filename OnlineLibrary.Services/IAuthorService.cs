@@ -9,7 +9,7 @@ namespace OnlineLibrary.Services
 {
   public interface IAuthorService
   {
-    List<Authors> GetAllAuthors();
+    List<Authors> GetAllRecords();
     void CreateAuthor(Authors author);
   }
 }

@@ -1,4 +1,4 @@
-﻿@using OnlineLibrary.myClasses;
+﻿@using OnlineLibrary.Classes;
 @if (Session["user_name"] != null)
 {
   using (Html.BeginForm("LogOff", "NewAccount", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))

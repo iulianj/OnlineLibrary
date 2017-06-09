@@ -1,4 +1,4 @@
-﻿
+﻿@using OnlineLibrary.Services
 <div class="col-sm-3 sidenav">
   <div class="sidenav_header">SEARCH FOR BOOKS</div>
   @*@using (Html.BeginForm("Search", "Manage", null, FormMethod.Post, new { id = "search_form", @class = "search_form" }))*@
@@ -28,7 +28,7 @@
   <button class="btn btn-danger hidden" style="margin-top:10px">Clear all filters</button>
   <div class="sidenav_header">CATEGORIES</div>
   <ul class="side_bar">
-    @foreach (var item in OnlineLibrary.myClasses.Helper.GetSideBarElements("categories"))
+    @foreach (var item in OnlineLibrary.Classes.Helper.GetSideBarElements<ICategoryService>("categories"))
     {
       <li>
         <input type="checkbox" onchange="$('#filter_form').submit();" name="CategoriesID" id="@item.Category" value="@item.ID" />
@@ -41,7 +41,7 @@
   </ul>
   <div class="sidenav_header">AUTHOR</div>
   <ul class="side_bar">
-    @foreach (var item in OnlineLibrary.myClasses.Helper.GetSideBarElements("authors"))
+    @foreach (var item in OnlineLibrary.Classes.Helper.GetSideBarElements<IAuthorService>("authors"))
     {
             <li>
               <input type="checkbox" onchange="$('#filter_form').submit();" name="AuthorsID" id="@item.Authors" value="@item.ID" />
@@ -54,7 +54,7 @@
   </ul>
   <div class="sidenav_header">PUBLISHING</div>
   <ul class="side_bar">
-    @foreach (var item in OnlineLibrary.myClasses.Helper.GetSideBarElements("publishing"))
+    @foreach (var item in OnlineLibrary.Classes.Helper.GetSideBarElements<IPublishingService>("publishing"))
     {
       <li>
         <input type="checkbox" onchange="$('#filter_form').submit();" name="PublishingsID" id="@item.Publishing" value="@item.ID" />
@@ -67,7 +67,7 @@
   </ul>
   <div class="sidenav_header">YEAR</div>
   <ul class="side_bar">
-    @foreach (var item in OnlineLibrary.myClasses.Helper.GetSideBarElements("year"))
+    @foreach (var item in OnlineLibrary.Classes.Helper.GetSideBarElements<IBookService>("year"))
     {
       <li>
         <input type="checkbox" onchange="$('#filter_form').submit();" name="Year" id="@item.Year" value="@item.Year" />

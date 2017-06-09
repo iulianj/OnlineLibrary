@@ -3,7 +3,7 @@ using OnlineLibrary.Areas.Admin.Models;
 using OnlineLibrary.Data.Entities;
 using OnlineLibrary.Domain.Entities;
 using OnlineLibrary.Models;
-using OnlineLibrary.myClasses;
+using OnlineLibrary.Classes;
 using OnlineLibrary.Services;
 using System;
 using System.Collections.Generic;
@@ -30,7 +30,7 @@ namespace OnlineLibrary.Areas.Admin.Controllers
     {
       List<BookViewModel> booksList = new List<BookViewModel>();
 
-      var booksDbList = service.GetAllBooks();
+      var booksDbList = service.GetAllRecords();
 
 
       booksList.InjectFrom(booksDbList);
@@ -45,7 +45,7 @@ namespace OnlineLibrary.Areas.Admin.Controllers
 
     public ActionResult Add()
     {
-      AddBookModel addBook = new AddBookModel();
+      AdminBookModel addBook = new AdminBookModel();
       BookStoreEntities model = new BookStoreEntities();
 
       addBook.Authors= new SelectList(model.Authors.OrderBy(m => m.LastName), "ID", "FullName");
@@ -59,7 +59,7 @@ namespace OnlineLibrary.Areas.Admin.Controllers
     }
 
     [HttpPost]
-    public ActionResult Add(AddBookModel model)
+    public ActionResult Add(AdminBookModel model)
     {
       try
       {
@@ -98,13 +98,13 @@ namespace OnlineLibrary.Areas.Admin.Controllers
         ViewBag.ErrorMsg = "Error. Book not exist";
         return View("NotFound");
       }
-      Books books = service.GetAllBooks().Find(b=>b.ID==id);
+      Books books = service.GetAllRecords().Find(b=>b.ID==id);
       if (books == null)
       {
         ViewBag.ErrorMsg = "Error. Book not exist";
         return View("NotFound");
       }
-      AddBookModel editBook = new AddBookModel();
+      AdminBookModel editBook = new AdminBookModel();
       editBook.InjectFrom(books);
       BookStoreEntities model = new BookStoreEntities();
       editBook.Authors = new SelectList(model.Authors.OrderBy(m => m.LastName), "ID", "FullName");
@@ -116,7 +116,7 @@ namespace OnlineLibrary.Areas.Admin.Controllers
     
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Edit(AddBookModel model)
+    public ActionResult Edit(AdminBookModel model)
     {
 
       try
@@ -155,7 +155,7 @@ namespace OnlineLibrary.Areas.Admin.Controllers
         ViewBag.ErrorMsg = "Error. Book not exist";
         return View("NotFound");
       }
-      Books books = service.GetAllBooks().Find(b => b.ID == id);
+      Books books = service.GetAllRecords().Find(b => b.ID == id);
       if (books == null)
       {
         ViewBag.ErrorMsg = "Error. Book not exist";
@@ -175,5 +175,36 @@ namespace OnlineLibrary.Areas.Admin.Controllers
       return View(model);
     }
 
+    public ActionResult Delete(int? id)
+    {
+      if (id == null)
+      {
+        ViewBag.ErrorMsg = "Error. Book not exist";
+        return View("NotFound");
+      }
+      Books books = service.GetAllRecords().Find(b => b.ID == id);
+      if (books == null)
+      {
+        ViewBag.ErrorMsg = "Error. Book not exist";
+        return View("NotFound");
+      }
+      BookViewModel model = new BookViewModel();
+      model.InjectFrom(books);
+
+      model.Author = books.Author.FullName;
+      model.Category = books.Category.Category;
+      model.Publishing = books.Publishing.Publishing;
+      return View(model);
+
+    }
+
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public ActionResult DeleteConfirmed(int id)
+    {
+      Books book = service.GetAllRecords().Find(b => b.ID == id);
+      service.DeleteBook(book);
+      return RedirectToAction("Index");
+    }
   }
 }

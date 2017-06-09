@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace OnlineLibrary.Areas.Admin.Models
 {
-  public class AddBookModel
+  public class AdminBookModel
   {
     public int ID { get; set; }
     [Required]

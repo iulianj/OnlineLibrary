@@ -9,7 +9,7 @@ namespace OnlineLibrary.Services
 {
   public interface IPublishingService
   {
-    List<Publishings> GetAllPublishings();
+    List<Publishings> GetAllRecords();
     void CreatePublishing(Publishings publishing);
   }
 }

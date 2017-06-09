@@ -9,11 +9,12 @@ namespace OnlineLibrary.Services
 {
   public interface IBookService
   {
-    List<Books> GetAllBooks();
+    List<Books> GetAllRecords();
     List<Books> GetList(int pageNumber, int pageSize, string sort, string sortDir);
     void CreateBook(Books book);
 
     void EditBook(Books book);
+    void DeleteBook(Books book);
     int Count();
   }
 }

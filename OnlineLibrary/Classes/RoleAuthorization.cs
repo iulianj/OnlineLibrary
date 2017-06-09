@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace OnlineLibrary.myClasses
+namespace OnlineLibrary.Classes
 {
   public class RoleAuthorization : AuthorizeAttribute
   {

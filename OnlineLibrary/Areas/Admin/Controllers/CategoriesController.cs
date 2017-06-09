@@ -1,5 +1,5 @@
 ﻿using OnlineLibrary.Domain.Entities;
-using OnlineLibrary.myClasses;
+using OnlineLibrary.Classes;
 using OnlineLibrary.Services;
 using System;
 using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace OnlineLibrary.Areas.Admin.Controllers
     {
       Categories newCategory = new Categories();
       newCategory.Category = category.Capitalize();
-      if (service.GetAllCategories().Find(c => c.Category == newCategory.Category) == null)
+      if (service.GetAllRecords().Find(c => c.Category == newCategory.Category) == null)
         service.CreateCategory(newCategory);
 
       return new EmptyResult();
@@ -31,7 +31,7 @@ namespace OnlineLibrary.Areas.Admin.Controllers
     public JsonResult PopulateDropDown()
     {
 
-      List<Categories> allCategories = service.GetAllCategories();
+      List<Categories> allCategories = service.GetAllRecords();
       var categories = allCategories.Select(c => new
       {
         CategoryID = c.ID,

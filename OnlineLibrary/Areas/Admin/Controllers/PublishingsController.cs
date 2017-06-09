@@ -1,5 +1,5 @@
 ﻿using OnlineLibrary.Domain.Entities;
-using OnlineLibrary.myClasses;
+using OnlineLibrary.Classes;
 using OnlineLibrary.Services;
 using System;
 using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace OnlineLibrary.Areas.Admin.Controllers
     {
       Publishings newPublishing = new Publishings();
       newPublishing.Publishing = publishing.Capitalize();
-      if (service.GetAllPublishings().Find(p => p.Publishing == newPublishing.Publishing) == null)
+      if (service.GetAllRecords().Find(p => p.Publishing == newPublishing.Publishing) == null)
         service.CreatePublishing(newPublishing);
 
       return new EmptyResult();
@@ -31,7 +31,7 @@ namespace OnlineLibrary.Areas.Admin.Controllers
     public JsonResult PopulateDropDown()
     {
 
-      List<Publishings> allPublishings = service.GetAllPublishings();
+      List<Publishings> allPublishings = service.GetAllRecords();
       var publishings = allPublishings.Select(p => new
       {
         PublishingID = p.ID,
