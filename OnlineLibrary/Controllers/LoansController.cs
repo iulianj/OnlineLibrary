@@ -36,8 +36,9 @@ namespace OnlineLibrary.Controllers
         TempData["must_login"] = "You must be logged in to loan books! Register if you don't have an account yet.";
         return RedirectToAction("../NewAccount/Login");
       }
-
-      return PartialView("_Loan", model);
+      var LoanedBook = model.Find(m => m.ID == Convert.ToInt32(loanedId));
+      LoanedBook.AvailabilityDate = DateTime.Now.ToString("dd-MM-yyyy");
+      return PartialView("_Loan", LoanedBook);
     }
 
     public ActionResult YAccount()

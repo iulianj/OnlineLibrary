@@ -1,11 +1,11 @@
-﻿@model IEnumerable<OnlineLibrary.Models.BookViewModel>
+﻿@model OnlineLibrary.Models.BookViewModel
   <div class="col-sm-9 text-left">
     <h1 class="title">Your Loans</h1>
-      You loaned: <strong>@Model.FirstOrDefault().Title</strong><br />
-      Written by: <strong>@Model.FirstOrDefault().Author</strong><br />
-    @if (Model.FirstOrDefault().AvailabilityDate != "")
+      You loaned: <strong>@Model.Title</strong><br />
+      Written by: <strong>@Model.Author</strong><br />
+    @if (Model.AvailabilityDate != "")
     {
-      DateTime dt = DateTime.ParseExact(Model.FirstOrDefault().AvailabilityDate, "dd-MM-yyyy", null).AddDays(10);
+      DateTime dt = DateTime.ParseExact(Model.AvailabilityDate, "dd-MM-yyyy", null).AddDays(10);
       string availDate = dt.ToString("dd-MM-yyyy");
       <div>Don't forget to return it on: <strong>@availDate</strong></div>
     }

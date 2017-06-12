@@ -206,5 +206,17 @@ namespace OnlineLibrary.Areas.Admin.Controllers
       service.DeleteBook(book);
       return RedirectToAction("Index");
     }
+
+    public JsonResult PopulateDropDown()
+    {
+
+      List<Books> allBooks = service.GetAllRecords();
+      var books = allBooks.Select(b => new
+      {
+        BookID = b.ID,
+        Text = b.Title.Trim() + " - " + b.Author.FullName.Trim()
+      });
+      return Json(books, JsonRequestBehavior.AllowGet);
+    }
   }
 }

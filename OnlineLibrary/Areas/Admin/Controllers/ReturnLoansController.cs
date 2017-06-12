@@ -47,11 +47,16 @@ namespace OnlineLibrary.Areas.Admin
       service.ReturnBook(loan);
       return RedirectToAction("Index");
       }
-
-      [HttpPost]
-      public ActionResult EditLoanedBook(int LoanedBook)
+      
+      [HttpPost, ActionName("Edit")]
+      public ActionResult EditLoanedBook(int LoanedBook, int UserID, int BookID, string loanDate)
       {
-      return View();
+      var loan = service.GetAllLoans().Find(l => l.ID == LoanedBook);
+      loan.BookID = BookID;
+      loan.UserID = UserID;
+      loan.loanDate = DateTime.ParseExact(loanDate, "dd-MM-yyyy",null);
+      service.EditLoan(loan);
+      return RedirectToAction("Index");
       }
 
       

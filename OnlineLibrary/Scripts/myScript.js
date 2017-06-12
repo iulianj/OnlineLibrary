@@ -107,7 +107,7 @@
  
 		$(document).on("click", ".books>a", function () {
 			$.ajax({
-				url: "../Books/LoadModal",
+				url: "/Books/LoadModal",
 				type: "POST",
 				data: {bookId:$(this).prop('id')},
 				success: function (data) {
@@ -132,7 +132,7 @@
 			$('html, body').animate({scrollTop: 300}, 500);
 			$('.overlay').css({ 'opacity': 1, 'z-index': 9999 })
 			$.ajax({
-				url: "../Loans/Loan",
+				url: "/Loans/Loan",
 				type: "POST",
 				data: { loanedId: this.getAttribute("loanedId") },
 				success: function (data) {
@@ -155,7 +155,7 @@
 			$('html, body').animate({ scrollTop: 300 }, 500);
 			$('.overlay').css({ 'opacity': 1, 'z-index': 9999 })
 			$.ajax({
-				url: "../Loans/Loan",
+				url: "/Loans/Loan",
 				type: "POST",
 				data: { loanedId: this.getAttribute("loanedId") },
 				success: function (data) {

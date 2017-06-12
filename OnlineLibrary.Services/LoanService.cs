@@ -36,6 +36,12 @@ namespace OnlineLibrary.Services
       unitOfWork.Commit();
     }
 
+    public void EditLoan(Loans loan)
+    {
+      loanRepo.Update(loan);
+      unitOfWork.Commit();
+    }
+
     public List<Loans> GetList(int pageNumber, int pageSize, string sort, string sortDir)
     {
       return loanRepo.GetAll().Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();

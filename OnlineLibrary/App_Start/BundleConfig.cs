@@ -24,11 +24,13 @@ namespace OnlineLibrary
 
       bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                 "~/Scripts/bootstrap.js",
+                "~/Scripts/moment.js",
+                "~/Scripts/bootstrap-datetimepicker.js",
                 "~/Scripts/respond.js",
                 "~/Scripts/myScript.js"));
 
       bundles.Add(new StyleBundle("~/Content/css").Include(
-                "~/Content/bootstrap.css",
+                "~/Content/bootstrap*",
                 "~/Content/site.css",
                 "~/Content/jquery-ui.css",
                 "~/Content/animate.min.css"));
