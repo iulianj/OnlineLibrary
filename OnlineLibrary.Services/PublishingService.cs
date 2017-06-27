@@ -29,5 +29,17 @@ namespace OnlineLibrary.Services
       publishingRepo.Add(publishing);
       unitOfWork.Commit();
     }
+
+    public void EditPublishing(Publishings publishing)
+    {
+      publishingRepo.Update(publishing);
+      unitOfWork.Commit();
+    }
+
+    public void DeletePublishing(Publishings publishing)
+    {
+      publishingRepo.Delete(publishing);
+      unitOfWork.Commit();
+    }
   }
 }

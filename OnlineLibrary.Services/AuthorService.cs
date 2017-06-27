@@ -31,6 +31,18 @@ namespace OnlineLibrary.Services
         authorRepo.Add(author);
         unitOfWork.Commit();
       }
-    }
+
+      public void EditAuthor(Authors author)
+      {
+        authorRepo.Update(author);
+        unitOfWork.Commit();
+      }
+
+      public void DeleteAuthor(Authors author)
+      {
+        authorRepo.Delete(author);
+        unitOfWork.Commit();
+      }
+  }
   }
 

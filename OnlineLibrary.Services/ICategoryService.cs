@@ -11,5 +11,7 @@ namespace OnlineLibrary.Services
   {
     List<Categories> GetAllRecords();
     void CreateCategory(Categories category);
+    void EditCategory(Categories category);
+    void DeleteCategory(Categories category);
   }
 }

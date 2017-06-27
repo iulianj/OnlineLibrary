@@ -1,0 +1,9 @@
+﻿<div class="col-sm-9 text-left">
+  <h1 class="title">Already Exists</h1>
+  @ViewBag.ErrorMsg
+
+  <br />
+  <br />
+  @Html.ActionLink("Go back", "Index", (string) ViewBag.ToController, new { area="Admin"}, new { @class = "btn btn-primary" })
+</div>
+

@@ -95,9 +95,12 @@ namespace OnlineLibrary.Controllers
         booksList[i].Author = booksDbList[i].Author.FullName;
         booksList[i].Category = booksDbList[i].Category.Category;
         booksList[i].Publishing = booksDbList[i].Publishing.Publishing;
-        booksList[i].Availability = booksDbList[i].NoOfBooks - booksDbList[i].Loans.Where(l => l.BookID == booksDbList[i].ID).Count();
-        booksList[i].AvailabilityDate = (booksDbList[i].Loans.Where(l => l.BookID == booksDbList[i].ID).Count() != 0) ?
-                     booksDbList[i].Loans.Where(l => l.BookID == booksDbList[i].ID).OrderBy(l => l.loanDate).First().loanDate.ToString("dd-MM-yyyy") : "";
+        //booksList[i].Availability = booksDbList[i].NoOfBooks - booksDbList[i].Loans.Where(l => l.BookID == booksDbList[i].ID).Count();
+        booksList[i].Availability = booksDbList[i].NoOfBooks - booksDbList[i].Loans.Count();
+        //booksList[i].AvailabilityDate = (booksDbList[i].Loans.Where(l => l.BookID == booksDbList[i].ID).Count() != 0) ?
+        //             booksDbList[i].Loans.Where(l => l.BookID == booksDbList[i].ID).OrderBy(l => l.loanDate).First().loanDate.ToString("dd-MM-yyyy") : "";
+        booksList[i].AvailabilityDate = (booksDbList[i].Loans.Count() != 0) ?
+                     booksDbList[i].Loans.OrderBy(l => l.loanDate).First().loanDate.ToString("dd-MM-yyyy") : "";
       }
       if (searchString != null && searchString !="")
       {

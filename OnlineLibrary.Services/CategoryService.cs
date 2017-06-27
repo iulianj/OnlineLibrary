@@ -29,6 +29,18 @@ namespace OnlineLibrary.Services
       categoryRepo.Add(category);
       unitOfWork.Commit();
     }
+
+    public void EditCategory(Categories category)
+    {
+      categoryRepo.Update(category);
+      unitOfWork.Commit();
+    }
+
+    public void DeleteCategory(Categories category)
+    {
+      categoryRepo.Delete(category);
+      unitOfWork.Commit();
+    }
   }
 }
 

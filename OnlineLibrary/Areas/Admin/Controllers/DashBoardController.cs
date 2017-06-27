@@ -26,7 +26,7 @@ namespace OnlineLibrary.Areas.Admin.Controllers
     }
 
     [RoleAuthorization("Admin")]
-    public ActionResult Index()
+    public ActionResult Index(string searchString)
     {
       List<BookViewModel> booksList = new List<BookViewModel>();
 
@@ -37,9 +37,28 @@ namespace OnlineLibrary.Areas.Admin.Controllers
       for (var i = 0; i < booksList.Count; i++)
       {
         booksList[i].Author = booksDbList[i].Author.FullName;
+        booksList[i].Category = booksDbList[i].Category.Category;
+        booksList[i].Publishing = booksDbList[i].Publishing.Publishing;
       }
 
-      return View(booksList);
+      var model = booksList;
+      if (searchString != null)
+      {
+        int yearParsed = 0;
+        //string searchString = Session["searchString"].ToString();
+        bool isNumeric = int.TryParse(searchString, out yearParsed);
+
+        string searchStringLower = searchString.ToLower();
+        var booksListSearch = booksList.Where(x => x.Title.ToLower().Contains(searchStringLower)
+                                || x.Category.ToLower().Contains(searchStringLower)
+                                || x.Author.ToLower().Contains(searchStringLower)
+                                || x.ISBN.ToLower().Contains(searchStringLower)
+                                || x.Publishing.ToLower().Contains(searchStringLower)
+                                || x.Year == yearParsed);
+        model = booksListSearch.ToList();
+      }
+
+      return View(model);
     }
 
 
@@ -48,7 +67,7 @@ namespace OnlineLibrary.Areas.Admin.Controllers
       AdminBookModel addBook = new AdminBookModel();
       BookStoreEntities model = new BookStoreEntities();
 
-      addBook.Authors= new SelectList(model.Authors.OrderBy(m => m.LastName), "ID", "FullName");
+      addBook.Authors = new SelectList(model.Authors.OrderBy(m => m.LastName), "ID", "FullName");
       addBook.Categories = new SelectList(model.Categories.OrderBy(m => m.Category), "ID", "Category");
       addBook.Publishings = new SelectList(model.Publishings.OrderBy(m => m.Publishing), "ID", "Publishing");
 
@@ -67,20 +86,21 @@ namespace OnlineLibrary.Areas.Admin.Controllers
         {
           Books newBook = new Books();
           newBook.InjectFrom(model);
-          if (newBook.File != null) {
-          var fileName = Path.GetFileName(newBook.File.FileName);
-          var path = Path.Combine(Server.MapPath("~/images"), fileName);
+          if (newBook.File != null)
+          {
+            var fileName = Path.GetFileName(newBook.File.FileName);
+            var path = Path.Combine(Server.MapPath("~/images"), fileName);
 
-          newBook.File.SaveAs(path);
-          newBook.imageURL = "../../images/" + fileName;
-        }
-        else
-        {
-          newBook.imageURL = "../../images/default.png";
-        }
-          
+            newBook.File.SaveAs(path);
+            newBook.imageURL = "../../images/" + fileName;
+          }
+          else
+          {
+            newBook.imageURL = "../../images/default.png";
+          }
+
           service.CreateBook(newBook);
-          
+
         }
 
         return RedirectToAction("Index");
@@ -96,12 +116,14 @@ namespace OnlineLibrary.Areas.Admin.Controllers
       if (id == null)
       {
         ViewBag.ErrorMsg = "Error. Book not exist";
+        ViewBag.ToController = "DashBoard";
         return View("NotFound");
       }
-      Books books = service.GetAllRecords().Find(b=>b.ID==id);
+      Books books = service.GetAllRecords().Find(b => b.ID == id);
       if (books == null)
       {
         ViewBag.ErrorMsg = "Error. Book not exist";
+        ViewBag.ToController = "DashBoard";
         return View("NotFound");
       }
       AdminBookModel editBook = new AdminBookModel();
@@ -110,10 +132,10 @@ namespace OnlineLibrary.Areas.Admin.Controllers
       editBook.Authors = new SelectList(model.Authors.OrderBy(m => m.LastName), "ID", "FullName");
       editBook.Categories = new SelectList(model.Categories.OrderBy(m => m.Category), "ID", "Category");
       editBook.Publishings = new SelectList(model.Publishings.OrderBy(m => m.Publishing), "ID", "Publishing");
-      return View("Edit",editBook);
+      return View("Edit", editBook);
     }
 
-    
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult Edit(AdminBookModel model)
@@ -125,16 +147,17 @@ namespace OnlineLibrary.Areas.Admin.Controllers
         {
           Books newBook = new Books();
           newBook.InjectFrom(model);
-          if (newBook.File != null) { 
-          var fileName = Path.GetFileName(newBook.File.FileName);
-          var path = Path.Combine(Server.MapPath("~/images"), fileName);
+          if (newBook.File != null)
+          {
+            var fileName = Path.GetFileName(newBook.File.FileName);
+            var path = Path.Combine(Server.MapPath("~/images"), fileName);
 
-          newBook.File.SaveAs(path);
-          newBook.imageURL = "../../images/" + fileName;
-        }
-        
+            newBook.File.SaveAs(path);
+            newBook.imageURL = "../../images/" + fileName;
+          }
 
-       
+
+
 
           service.EditBook(newBook);
 
@@ -153,24 +176,26 @@ namespace OnlineLibrary.Areas.Admin.Controllers
       if (id == null)
       {
         ViewBag.ErrorMsg = "Error. Book not exist";
+        ViewBag.ToController = "DashBoard";
         return View("NotFound");
       }
       Books books = service.GetAllRecords().Find(b => b.ID == id);
       if (books == null)
       {
         ViewBag.ErrorMsg = "Error. Book not exist";
+        ViewBag.ToController = "DashBoard";
         return View("NotFound");
       }
       BookViewModel model = new BookViewModel();
       model.InjectFrom(books);
-      
+
       model.Author = books.Author.FullName;
       model.Category = books.Category.Category;
       model.Publishing = books.Publishing.Publishing;
       model.Availability = books.NoOfBooks - books.Loans.Where(l => l.BookID == books.ID).Count();
       model.AvailabilityDate = (books.Loans.Where(l => l.BookID == books.ID).Count() != 0) ?
                      books.Loans.Where(l => l.BookID == books.ID).OrderBy(l => l.loanDate).First().loanDate.ToString("dd-MM-yyyy") : "";
-      
+
 
       return View(model);
     }
@@ -180,12 +205,14 @@ namespace OnlineLibrary.Areas.Admin.Controllers
       if (id == null)
       {
         ViewBag.ErrorMsg = "Error. Book not exist";
+        ViewBag.ToController = "DashBoard";
         return View("NotFound");
       }
       Books books = service.GetAllRecords().Find(b => b.ID == id);
       if (books == null)
       {
         ViewBag.ErrorMsg = "Error. Book not exist";
+        ViewBag.ToController = "DashBoard";
         return View("NotFound");
       }
       BookViewModel model = new BookViewModel();

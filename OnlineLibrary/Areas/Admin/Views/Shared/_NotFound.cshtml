@@ -4,6 +4,6 @@
 
   <br />
   <br />
-  @Html.ActionLink("Go back", "Index", "DashBoard", new { area="Admin"}, new { @class = "btn btn-primary" })
+  @Html.ActionLink("Go back", "Index", (string)ViewBag.ToController, new { area="Admin"}, new { @class = "btn btn-primary" })
 </div>
 

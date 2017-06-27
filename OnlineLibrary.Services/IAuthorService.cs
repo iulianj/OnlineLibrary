@@ -11,5 +11,7 @@ namespace OnlineLibrary.Services
   {
     List<Authors> GetAllRecords();
     void CreateAuthor(Authors author);
+    void EditAuthor(Authors author);
+    void DeleteAuthor(Authors author);
   }
 }

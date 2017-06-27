@@ -11,5 +11,7 @@ namespace OnlineLibrary.Services
   {
     List<Publishings> GetAllRecords();
     void CreatePublishing(Publishings publishing);
+    void EditPublishing(Publishings publishing);
+    void DeletePublishing(Publishings publishing);
   }
 }

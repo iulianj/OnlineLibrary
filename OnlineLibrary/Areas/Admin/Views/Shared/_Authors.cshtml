@@ -1,0 +1,128 @@
+﻿@model IEnumerable<OnlineLibrary.Domain.Entities.Authors>
+
+<div id="authModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="modalTitle">Add new author</h4>
+      </div>
+      <div class="modal-body">
+        @using (Html.BeginForm("AddNew", "AdminAuthors", FormMethod.Post, new { id = "addAuthor_form" }))
+        {
+          <input type="hidden" name="authorID" id="authorID" value="" />
+          <div class="form-horizontal">
+            <div class="form-group">
+              <label class="control-label col-md-4" for="authorFirstName">First Name</label>
+              <div class="col-md-8">
+                <input type="text" style="text-transform: capitalize" class="form-control" required data-val="true" data-val-required="First Name field is required." name="authorFirstName" id="authorFirstName" autofocus />
+                <span class="field-validation-valid text-danger" data-valmsg-for="authorFirstName" data-valmsg-replace="true"></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-4" for="authorLastName">Last Name</label>
+              <div class="col-md-8">
+                <input type="text" style="text-transform: capitalize" class="form-control" required data-val="true" data-val-required="Last Name field is required." name="authorLastName" id="authorLastName" />
+                <span class="field-validation-valid text-danger" data-valmsg-for="authorLastName" data-valmsg-replace="true"></span>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" name="viewReturn" value="1" />
+
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-default" value="Add" id="addNewAuthor">
+            <button type="button" class="btn btn-default" id="closeNewAuthor" data-dismiss="modal">Close</button>
+          </div>
+        }
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="col-sm-9 text-left">
+  <h1 class="title">Authors</h1>
+  <p>
+    @Html.ActionLink("Add New Author", "", "", new { area = "Admin" }, new { data_toggle = "modal", data_target = "#authModal", id="addAuthorBtn",@class = "btn btn-primary" })
+  </p>
+  <div class="col-sm-12 text-left">
+    <table class="table">
+      <tr>
+        <th>
+          @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+          @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th></th>
+      </tr>
+
+      @foreach (var item in Model)
+      {
+        <tr id="@item.ID">
+          <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+          </td>
+          <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+          </td>
+          <td>
+            @Html.ActionLink("Edit", "", "", new { area = "Admin" }, new { data_toggle = "modal", data_target = "#authModal", data_id = item.ID, @class = "modalEdit" }) |
+            @Html.ActionLink("Delete", "", "", new { area = "Admin" }, new { data_toggle = "modal", data_target = "#authModal", data_id = item.ID, @class = "modalDelete" })
+          </td>
+        </tr>
+      }
+
+    </table>
+  </div>
+</div>
+
+<script>
+  window.onload = function () {
+    $(document).ready(function () {
+      $(".modalEdit").click(function () {
+        $("#addAuthor_form").attr("action", "AdminAuthors/Edit");
+        $("#addNewAuthor").val("Save");
+        $("#modalTitle").text("Edit Author");
+
+        $("#authorID").val($(this).data('id'));
+        $("#authorFirstName").val($.trim($("#" + $("#authorID").val()).find('td:eq(0)').text()));
+        $("#authorLastName").val($.trim($("#" + $("#authorID").val()).find('td:eq(1)').text()));
+      });
+
+      $("#addAuthorBtn").click(function () {
+        $("#addAuthor_form").attr("action", "AdminAuthors/AddNew");
+        $("#addNewAuthor").val("Add");
+        $("#addAuthor_form")[0].reset();
+        $("#modalTitle").text("Add new Author");
+        
+      });
+
+      $(".modalDelete").click(function () {
+        $("#addAuthor_form").attr("action", "AdminAuthors/Delete");
+        $("#addNewAuthor").val("Delete");
+        $("#modalTitle").text("Delete Author");
+
+        $("#authorID").val($(this).data('id'));
+        $("#authorFirstName").val($.trim($("#" + $("#authorID").val()).find('td:eq(0)').text())).prop('readonly', true);
+        $("#authorLastName").val($.trim($("#" + $("#authorID").val()).find('td:eq(1)').text())).prop('readonly', true);
+      });
+
+      $("#addNewAuthor").click(function () {
+        clearForm()
+      });
+      $("#closeNewAuthor").click(function () {
+        clearForm()
+      });
+
+      function clearForm() {
+        $("#authorFirstName").prop('readonly', false);
+        $("#authorLastName").prop('readonly', false);
+      };
+
+      
+      
+    });
+  }
+</script>

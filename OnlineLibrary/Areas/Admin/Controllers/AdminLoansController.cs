@@ -9,11 +9,11 @@ using System.Web.Mvc;
 
 namespace OnlineLibrary.Areas.Admin
 {
-    public class ReturnLoansController : Controller
+    public class AdminLoansController : Controller
     {
       public ILoanService service { get; set; }
 
-      public ReturnLoansController(ILoanService service)
+      public AdminLoansController(ILoanService service)
       {
         this.service = service;
       }
@@ -57,6 +57,27 @@ namespace OnlineLibrary.Areas.Admin
       loan.loanDate = DateTime.ParseExact(loanDate, "dd-MM-yyyy",null);
       service.EditLoan(loan);
       return RedirectToAction("Index");
+      }
+
+
+      public ActionResult OverDue()
+      {
+      var overDueLoans = service.GetAllLoans().Where(l => l.loanDate.AddDays(10) < DateTime.Today);
+      List<OverDueLoans> overDueLoansView = new List<OverDueLoans>();
+
+      foreach (var item in overDueLoans)
+      {
+        overDueLoansView.Add(
+          new OverDueLoans
+          {
+            UserName = item.User.FirstName + " " + item.User.LastName,
+            Title = item.Book.Title,
+            Author = item.Book.Author.FullName,
+            LoanDate = item.loanDate.ToString("dd-MM-yyyy")
+          }
+        );
+      }
+      return View("OverDueLoans", overDueLoansView);
       }
 
       
